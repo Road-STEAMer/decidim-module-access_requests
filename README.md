@@ -45,37 +45,6 @@ And then execute:
 $ bundle
 ```
 
-After installation, add this to your verifications initializer:
-
-```ruby
-# config/initializers/decidim_verifications.rb
-Decidim::Verifications.register_workflow(:your_requests) do |workflow|
-  workflow.engine = Decidim::AccessRequests::Verification::Engine
-  workflow.admin_engine = Decidim::AccessRequests::Verification::AdminEngine
-  workflow.renewable = true
-  workflow.time_between_renewals = 5.minutes
-end
-```
-
-And finally, add these lines to your localization files to describe the workflow
-you just registered:
-
-```yaml
-en:
-  decidim:
-    authorization_handlers:
-      your_requests:
-        explanation: An admin will approve or deny access
-        name: Your access requests
-      admin:
-        your_requests:
-          help:
-            - User requests access against the registered workflow
-            - An admin will review the request
-            - Admin will either approve or reject the access request
-            - The user will get notified that their access request has been either approved or rejected
-```
-
 ## Usage
 
 For enabling the verifcation method:

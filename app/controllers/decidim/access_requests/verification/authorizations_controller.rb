@@ -16,25 +16,41 @@ module Decidim
           @form = RequestForm.new(handler_handle: authorization_handle)
         end
 
+         
+
+
         def create
           enforce_permission_to :create, :authorization, authorization: @authorization
-
+        
           @form = RequestForm.from_params(
             params.merge(user: current_user)
           ).with_context(current_organization: current_organization)
-
+        
           Decidim::Verifications::PerformAuthorizationStep.call(@authorization, @form) do
             on(:ok) do
+              Decidim::EventsManager.publish(
+                event: "decidim.events.access_requests.requested",
+                event_class: Decidim::AccessRequests::AccessRequestConfirmedEvent,
+                resource: authorization,
+                affected_users: Decidim::User.where(admin: true, organization: current_organization),
+                extra: {
+                  user_name: current_user.name,
+                  user_nickname: current_user.nickname,
+                  handler_name: authorization.name
+                }
+              )
+        
               flash[:notice] = t("authorizations.create.success", scope: "decidim.access_requests.verification")
               redirect_to decidim_verifications.authorizations_path
             end
-
+        
             on(:invalid) do
               flash.now[:alert] = t("authorizations.create.error", scope: "decidim.access_requests.verification")
               render :new
             end
           end
         end
+        
 
         def edit
           enforce_permission_to :create, :authorization, authorization: @authorization

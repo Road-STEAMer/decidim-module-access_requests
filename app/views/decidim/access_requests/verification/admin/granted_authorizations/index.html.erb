@@ -6,14 +6,14 @@
       <%= link_to t(".new"), new_granted_authorization_path, class: "button tiny button--title" %>
     </h2>
   </div>
-  <div class="card-section">
+  <div class="card id="user-groups">
     <table class="table-list">
       <thead>
         <tr>
           <th><%= t(".name") %></th>
           <th><%= t(".nickname") %></th>
           <th><%= t(".email") %></th>
-          <th></th>
+          <th><%= t(".actions") %></th>
         </tr>
       </thead>
       <tbody>
@@ -33,19 +33,26 @@
                 <%= authorization.user.nickname %>
               <% end %>
             </td>
+            <td>
+              <% if authorization.user.deleted? %>
+                (<%= t(".deleted_user") %>)
+              <% else %>
+                <%= authorization.user.email %> <!-- Mostra l'email effettiva -->
+              <% end %>
+            </td>
             <td class="table-list__actions">
               <% unless authorization.user.deleted? %>
-                <%= icon_link_to "person",
-                                 decidim.profile_path(authorization.user.nickname),
-                                 t("layouts.decidim.user_profile.account"),
-                                 class:"action-icon--show",
-                                 target: "_blank" %>
+                <%= icon_link_to "user-line",
+                               decidim.profile_path(authorization.user.nickname),
+                               t("layouts.decidim.user_profile.account"),
+                               class: "action-icon--show",
+                               target: "_blank" %>
               <% end %>
-              <%= icon_link_to "circle-x",
-                              granted_authorization_path(authorization.id),
-                              t(".remove_access"),
-                              method: :delete,
-                              class: "action-icon--delete" %>
+              <%= icon_link_to "close-circle-line",
+                             granted_authorization_path(authorization.id),
+                             t(".remove_access"),
+                             method: :delete,
+                             class: "action-icon--delete" %>
             </td>
           </tr>
         <% end %>

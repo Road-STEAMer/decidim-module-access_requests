@@ -58,7 +58,7 @@ module Decidim
               organization: current_organization,
               name: verification_manifest.name,
               granted: false
-            ).query.page(params[:page]).per(15)
+            ).query.page(params[:page])
           end
 
           def authorization

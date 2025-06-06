@@ -7,6 +7,10 @@
     .step-bullet__icon {
       border-color: #28a745; // verde per completato
       color: #28a745;
+      
+      svg { // Aggiunto per targettare l'svg direttamente
+        fill: currentColor; // Eredita il colore dal genitore
+      }
     }
   }
 
@@ -18,13 +22,14 @@
     border: 4px solid #cccccc; // grigio per pending
     border-radius: 50%;
     color: #cccccc;
+    display: flex; // Aggiunto per centrare meglio
+    align-items: center; // Centra verticalmente
+    justify-content: center; // Centra orizzontalmente
 
-    .icon {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
+    svg, .icon { // Target sia svg che elementi con classe .icon
       width: 3em;
       height: 3em;
+      fill: currentColor; // Usa il colore del testo corrente
     }
   }
 }

@@ -1,0 +1,18 @@
+<section id="home__menu" class="home__menu">
+  <div class="home__menu__container">
+    <% menu_items.each do |item| %>
+      <div class="home__menu-element">
+        <%= link_to item.url, class: "button button__text outline-none
+        home__menu-element--link" do %>
+          <%= item.label %>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="home__menu-element">
+        <%= link_to '/idra', class: "button button__text outline-none
+        home__menu-element--link" do %>
+          Idra
+        <% end %>
+      </div>
+  </div>
+</section>

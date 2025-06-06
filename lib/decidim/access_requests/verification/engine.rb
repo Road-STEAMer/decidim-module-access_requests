@@ -30,33 +30,24 @@ module Decidim
           config.i18n.load_path += Dir[locales_path.to_s]
         end
 
-        initializer "decidim.access_requests.register_icons" do
-          Decidim.icons.register(
-            name: "envelope-closed",
-            icon: "envelope-closed",
-            category: "system",
-            description: "Closed envelope icon",
-            engine: :access_requests
-          )
-        
-          Decidim.icons.register(
-            name: "check",
-            icon: "check",
-            category: "system",
-            description: "Check icon",
-            engine: :access_requests
-          )
-        
-          Decidim.icons.register(
-            name: "bell",
-            icon: "bell",
-            category: "system",
-            description: "Notification bell icon",
-            engine: :access_requests
+        initializer "decidim.access_requests.add_cells_view_paths" do
+          Cell::ViewModel.view_paths.unshift(
+            File.expand_path("#{Decidim::AccessRequests::Verification::Engine.root}/app/cells")
           )
         end
+
         
-        
+      initializer "access_requests.icons" do
+        # Registra l'icona envelope-closed usando una RemixIcon
+        Decidim.icons.register(
+          name: "envelope-closed",
+          icon: "mail-send-line", # Oppure "mail-unread-line" per icona chiusa alternativa
+          category: "system",
+          description: "Closed envelope icon",
+          engine: :core
+        )
+      end
+
 
         def load_seed
           # Enable the `:access_requests` authorization

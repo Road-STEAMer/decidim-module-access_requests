@@ -31,12 +31,14 @@ en:
               title: Granted requests
               username: Username
               email: Email
+              actions: Actions
             new:
               actions: Actions
               created_at: Created at
               grant_access: Grant access
               name: Name
               nickname: Nickname
+              email: Email
               search: Search
               users: Users
           pending_authorizations:
@@ -51,6 +53,8 @@ en:
               nickname: Nickname
               reject_request: Reject access
               title: Pending requests
+              email: Email
+              actions: Actions
             update:
               error: There was an error verifying access for the user.
               success: Access successfully granted for the user.
@@ -82,3 +86,5 @@ en:
           email_outro: You have received this notification because your access request has been approved.
           email_subject: You have been granted access to %{verification_name}!
           notification_title: You have been granted access to %{verification_name}.
+        requested: 
+          notification_title: A user is asking to be authorized, go to Admin dashboard > Participants > Authorizations > Your access requests to review the request.

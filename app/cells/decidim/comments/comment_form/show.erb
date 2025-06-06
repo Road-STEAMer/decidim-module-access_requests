@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form with Modal</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif;
+    }
+
+    .custom-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000; 
+    }
+
+    .custom-modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      z-index: 1001; 
+      width: 60%;
+      height: 80%;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .custom-close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .custom-close:hover {
+      color: black;
+    }
+
+    .custom-field {
+      margin-bottom: 10px;
+    }
+
+    .custom-hashtags-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .dataset-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .dataset-link {
+      margin-right: 10px;
+    }
+
+    .dataset-link:hover {
+      text-decoration: underline;
+    }
+
+    .dataset-copy-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .dataset-copy-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .scrollable {
+      max-height: 90%; /* Aumentato per un'area di visualizzazione più ampia */
+      overflow-y: auto;
+      padding: 1em;
+      margin-top: 10px; /* Margine superiore per la barra di ricerca */
+      margin-bottom: 10px;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid black;
+      font-size: 16px; /* Assicurati che il font non sia troppo piccolo */
+      color: #333; /* Colore del testo del placeholder */
+
+    }
+
+    .title-container {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+
+<% if authorized_to_comment?(current_user) %>
+<%= form_for(form_object, url: decidim_comments.comments_path(order: order), method: :post, remote: true, html: { id: form_id }) do |form| %>
+    <%= form.hidden_field :commentable_gid, id: nil %>
+    <%= form.hidden_field :alignment, id: nil, class: "alignment-input" %>
+    <%= comment_as_for(form) %>
+  
+    <div class="flex justify-between items-end mb-4">
+      <label class="comment__form-label" for="<%= add_comment_id %>">
+        <%= t("decidim.components.add_comment_form.form.body.label") %>
+      </label>
+      <span id="<%= add_comment_id %>-remaining-characters" class="remaining-character-count"></span>
+    </div>
+  
+    <% if current_user %>
+      <!-- Bottone per aprire il modal -->
+      <button id="openCustomModalButton" type="button" style="padding: 0; display: flex; align-items: center; justify-content: center; width: 2.5em; height: 2.5em; background-color: transparent; border: none; cursor: pointer; margin-bottom: 1em;">
+        <span style="font-size: 20px; color: #f1c232">★</span>
+      </button>
+    <% end %>
+  
+    <%= form.text_area(
+      :body,
+      id: add_comment_id,
+      class: "w-full min-h-[160px]",
+      maxlength: comments_max_length,
+      required: true,
+      placeholder: t("decidim.components.add_comment_form.form.body.placeholder"),
+      label: false,
+      data: { remaining_characters: "##{add_comment_id}-remaining-characters", input_emoji: true }
+    ) %>
+  
+    <div class="comment__form-submit">
+      <% if alignment_enabled? %>
+        <%= render :opinion %>
+      <% end %>
+  
+      <button type="submit" class="button button__sm button__secondary" disabled="disabled">
+        <span>
+          <% if reply? %>
+            <%= t("decidim.components.add_comment_form.form.submit_reply") %>
+          <% else %>
+            <%= t("decidim.components.add_comment_form.form.submit_root_comment") %>
+          <% end %>
+        </span>
+        <%= icon "chat-1-line" %>
+      </button>
+    </div>
+  <% end %>
+  
+  <!-- Modal HTML -->
+  <div id="customModal" class="custom-modal">
+    <div class="custom-modal-content">
+      <span class="custom-close" id="closeCustomModal">&times;</span>
+      <div class="title-container">
+        <h2>Saved Datasets</h2>
+      </div>
+      <input type="text" id="search-bar" class="search-bar" placeholder="Search Datasets" onkeyup="filterDatasets()" />
+      <div id="modal-editor-content" class="scrollable">
+        <div id="datasets-container">
+        </div>
+      </div>
+    </div>
+  </div>
+  <% else %>
+  <div class="callout alert callout--full" >
+    You are not authorized to comment any resource. Ask for authorization to the organization administrator (<a href="<%= main_app.url_for('/authorizations') %>">Authorizations</a>)
+  </div>
+   <% end %>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const modal = document.getElementById("customModal");
+      const openModalButton = document.getElementById("openCustomModalButton");
+      const closeModalButton = document.getElementById("closeCustomModal");
+      const datasetsContainer = document.getElementById('datasets-container');
+      const commentField = document.getElementById('<%= add_comment_id %>'); // Campo dei commenti
+      const searchBar = document.getElementById('search-bar');
+  
+      function loadDatasets() {
+        fetch('/idra/datasets') // Percorso per la richiesta AJAX
+          .then(response => response.json())
+          .then(data => {
+            datasetsContainer.innerHTML = ''; // Pulisci il contenuto esistente
+  
+            data.forEach(dataset => {
+              const item = document.createElement('div');
+              item.className = 'dataset-item';
+  
+              const link = document.createElement('a');
+              link.href = dataset.url;
+              link.target = "_blank";
+              link.rel = "nofollow";
+              link.className = 'dataset-link';
+              link.textContent = dataset.title;
+  
+              const copyButton = document.createElement('button');
+              copyButton.className = 'dataset-copy-btn';
+              copyButton.textContent = 'Add';
+              copyButton.dataset.datasetUrl = dataset.url;
+              copyButton.dataset.datasetTitle = dataset.title;
+  
+              copyButton.addEventListener('click', function() {
+                const textToCopy = copyButton.dataset.datasetTitle + ' : ' + copyButton.dataset.datasetUrl; // Copia solo l'URL
+                commentField.value += textToCopy + '\n'; // Aggiungi l'URL al campo dei commenti
+                copyButton.textContent = 'Done';
+                copyButton.style.backgroundColor = 'transparent';
+                copyButton.style.color = 'gray';
+                copyButton.disabled = true;
+                copyButton.style.cursor = "not-allowed";
+                copyButton.style.opacity = "0.6";
+                copyButton.style.border = '1px solid grey';
+              });
+  
+              item.appendChild(link);
+              item.appendChild(copyButton);
+              datasetsContainer.appendChild(item);
+            });
+          })
+          .catch(error => console.error('Errore nel caricamento dei dataset:', error));
+      }
+  
+      function filterDatasets() {
+        const searchQuery = searchBar.value.toLowerCase();
+        const items = datasetsContainer.querySelectorAll('.dataset-item');
+        items.forEach(item => {
+          const title = item.querySelector('.dataset-link').textContent.toLowerCase();
+          if (title.includes(searchQuery)) {
+            item.style.display = 'flex';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      }
+  
+      openModalButton.addEventListener('click', function() {
+        loadDatasets(); 
+        modal.style.display = "block";
+      });
+  
+      closeModalButton.addEventListener('click', function() {
+        modal.style.display = "none";
+      });
+  
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+  
+      window.filterDatasets = filterDatasets; // Espone la funzione di filtraggio
+    });
+  </script>
+  
+
+</body>
+</html>
