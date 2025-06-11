@@ -12,8 +12,8 @@
       <%= decidim_form_for(@form, url: authorization_path) do |form| %>
         <%= form.hidden_field :handler_handle %>
 
-        <div class="actions">
-          <%= form.submit t(".send"), class: "button expanded", "data-disable-with" => "#{t('.send')}..." %>
+        <div class="actions text-center" style="margin-bottom: 2rem;">
+          <%= form.submit t(".send"), class: "button button__lg md:button__xl button__primary", "data-disable-with" => "#{t('.send')}..." %>
         </div>
       <% end %>
     </div>
