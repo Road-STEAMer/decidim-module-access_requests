@@ -1,0 +1,90 @@
+it:
+  activemodel:
+    models:
+      decidim/access_requests/access_request_confirmed_event: Richiesta di accesso confermata
+  decidim:
+    authorization_handlers:
+      your_requests:
+        explanation: Un amministratore approverà o rifiuterà l'accesso
+        name: Le tue richieste di accesso
+      admin:
+        your_requests:
+          help:
+            - L'utente richiede accesso secondo il flusso di lavoro registrato
+            - Un amministratore esaminerà la richiesta
+            - L'amministratore approverà o rifiuterà la richiesta di accesso
+            - L'utente sarà notificato dell'esito della richiesta
+    access_requests:
+      verification:
+        admin:
+          granted_authorizations:
+            destroy:
+              error: Si è verificato un errore durante l'eliminazione della verifica.
+              success: Verifica eliminata con successo.
+            index:
+              deleted_user: Utente eliminato
+              name: Nome
+              new: Nuovo
+              nickname: Nickname
+              pending_authorizations: Richieste in attesa
+              remove_access: Rimuovi accesso
+              title: Richieste concesse
+              username: Nome utente
+              email: Email
+              actions: Azioni
+            new:
+              actions: Azioni
+              created_at: Creato il
+              grant_access: Concedi accesso
+              name: Nome
+              nickname: Nickname
+              email: Email
+              search: Cerca
+              users: Utenti
+          pending_authorizations:
+            destroy:
+              error: Si è verificato un errore durante il rifiuto della richiesta di accesso.
+              success: Richiesta di accesso rifiutata con successo.
+            index:
+              approve_request: Concedi accesso
+              deleted_user: Utente eliminato
+              granted_authorizations: Richieste concesse
+              name: Nome
+              nickname: Nickname
+              reject_request: Rifiuta accesso
+              title: Richieste in attesa
+              email: Email
+              actions: Azioni
+            update:
+              error: Si è verificato un errore durante la verifica dell'accesso per l'utente.
+              success: Accesso concesso con successo all'utente.
+        authorizations:
+          create:
+            error: Si è verificato un errore durante la creazione della richiesta di accesso.
+            success: Richiesta di accesso creata con successo.
+          edit:
+            title: La tua richiesta è in attesa
+          new:
+            title: Richiedi accesso
+            send: Invia richiesta
+          steps:
+            step1:
+              title: Passo 1
+              description: Invia richiesta di accesso.
+            step2:
+              title: Passo 2
+              description: Attendi la revisione della richiesta.
+            step3:
+              title: Passo 3
+              description: >
+                Riceverai una notifica una volta completata
+                la revisione della richiesta.
+    events:
+      access_requests:
+        confirmed:
+          email_intro: Congratulazioni! Ti è stato concesso l'accesso a %{verification_name}.
+          email_outro: Hai ricevuto questa notifica perché la tua richiesta di accesso è stata approvata.
+          email_subject: Accesso concesso a %{verification_name}!
+          notification_title: Ti è stato concesso l'accesso a %{verification_name}.
+        requested:
+          notification_title: Un utente sta chiedendo l'autorizzazione, vai su Pannello Admin > Partecipanti > Autorizzazioni > Le tue richieste di accesso per esaminare la richiesta.

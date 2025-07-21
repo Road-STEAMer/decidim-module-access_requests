@@ -1,0 +1,90 @@
+fr:
+  activemodel:
+    models:
+      decidim/access_requests/access_request_confirmed_event: Demande d'accès confirmée
+  decidim:
+    authorization_handlers:
+      your_requests:
+        explanation: Un administrateur approuvera ou refusera l'accès
+        name: Vos demandes d'accès
+      admin:
+        your_requests:
+          help:
+            - L'utilisateur fait une demande d'accès selon le flux de travail enregistré
+            - Un administrateur examinera la demande
+            - L'administrateur approuvera ou rejettera la demande d'accès
+            - L'utilisateur sera notifié du résultat
+    access_requests:
+      verification:
+        admin:
+          granted_authorizations:
+            destroy:
+              error: Une erreur est survenue lors de la suppression de la vérification.
+              success: Vérification supprimée avec succès.
+            index:
+              deleted_user: Utilisateur supprimé
+              name: Nom
+              new: Nouveau
+              nickname: Surnom
+              pending_authorizations: Demandes en attente
+              remove_access: Retirer l'accès
+              title: Demandes accordées
+              username: Nom d'utilisateur
+              email: Email
+              actions: Actions
+            new:
+              actions: Actions
+              created_at: Créé le
+              grant_access: Accorder l'accès
+              name: Nom
+              nickname: Surnom
+              email: Email
+              search: Rechercher
+              users: Utilisateurs
+          pending_authorizations:
+            destroy:
+              error: Une erreur est survenue lors du refus de la demande d'accès.
+              success: Demande d'accès refusée avec succès.
+            index:
+              approve_request: Accorder l'accès
+              deleted_user: Utilisateur supprimé
+              granted_authorizations: Demandes accordées
+              name: Nom
+              nickname: Surnom
+              reject_request: Refuser l'accès
+              title: Demandes en attente
+              email: Email
+              actions: Actions
+            update:
+              error: Une erreur est survenue lors de la vérification de l'accès pour l'utilisateur.
+              success: Accès accordé avec succès à l'utilisateur.
+        authorizations:
+          create:
+            error: Une erreur est survenue lors de la création de la demande d'accès.
+            success: Demande d'accès créée avec succès.
+          edit:
+            title: Votre demande est en attente
+          new:
+            title: Demander l'accès
+            send: Envoyer la demande
+          steps:
+            step1:
+              title: Étape 1
+              description: Envoyer la demande d'accès.
+            step2:
+              title: Étape 2
+              description: Attendre la révision de la demande.
+            step3:
+              title: Étape 3
+              description: >
+                Vous serez notifié une fois la révision
+                de la demande terminée.
+    events:
+      access_requests:
+        confirmed:
+          email_intro: Félicitations ! Vous avez obtenu l'accès à %{verification_name}.
+          email_outro: Vous recevez cette notification parce que votre demande d'accès a été approuvée.
+          email_subject: Accès accordé à %{verification_name} !
+          notification_title: Vous avez obtenu l'accès à %{verification_name}.
+        requested:
+          notification_title: Un utilisateur demande une autorisation, allez dans Tableau de bord Admin > Participants > Autorisations > Vos demandes d'accès pour examiner la demande.

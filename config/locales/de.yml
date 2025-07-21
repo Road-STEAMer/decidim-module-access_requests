@@ -1,0 +1,90 @@
+de:
+  activemodel:
+    models:
+      decidim/access_requests/access_request_confirmed_event: Zugriffsanfrage bestätigt
+  decidim:
+    authorization_handlers:
+      your_requests:
+        explanation: Ein Administrator wird den Zugriff genehmigen oder ablehnen
+        name: Ihre Zugriffsanfragen
+      admin:
+        your_requests:
+          help:
+            - Benutzer stellt eine Zugriffsanfrage gemäß dem registrierten Workflow
+            - Ein Administrator wird die Anfrage prüfen
+            - Administrator genehmigt oder lehnt die Zugriffsanfrage ab
+            - Der Benutzer wird über das Ergebnis benachrichtigt
+    access_requests:
+      verification:
+        admin:
+          granted_authorizations:
+            destroy:
+              error: Beim Löschen der Verifizierung ist ein Fehler aufgetreten.
+              success: Verifizierung wurde erfolgreich gelöscht.
+            index:
+              deleted_user: Gelöschter Benutzer
+              name: Name
+              new: Neu
+              nickname: Spitzname
+              pending_authorizations: Ausstehende Anfragen
+              remove_access: Zugriff entfernen
+              title: Gewährte Anfragen
+              username: Benutzername
+              email: E-Mail
+              actions: Aktionen
+            new:
+              actions: Aktionen
+              created_at: Erstellt am
+              grant_access: Zugriff gewähren
+              name: Name
+              nickname: Spitzname
+              email: E-Mail
+              search: Suche
+              users: Benutzer
+          pending_authorizations:
+            destroy:
+              error: Beim Ablehnen der Zugriffsanfrage ist ein Fehler aufgetreten.
+              success: Zugriffsanfrage erfolgreich abgelehnt.
+            index:
+              approve_request: Zugriff gewähren
+              deleted_user: Gelöschter Benutzer
+              granted_authorizations: Gewährte Anfragen
+              name: Name
+              nickname: Spitzname
+              reject_request: Zugriff ablehnen
+              title: Ausstehende Anfragen
+              email: E-Mail
+              actions: Aktionen
+            update:
+              error: Beim Verifizieren des Zugriffs für den Benutzer ist ein Fehler aufgetreten.
+              success: Zugriff erfolgreich für den Benutzer gewährt.
+        authorizations:
+          create:
+            error: Beim Erstellen der Zugriffsanfrage ist ein Fehler aufgetreten.
+            success: Zugriffsanfrage erfolgreich erstellt.
+          edit:
+            title: Ihre Anfrage ist ausstehend
+          new:
+            title: Zugriff anfragen
+            send: Anfrage senden
+          steps:
+            step1:
+              title: Schritt 1
+              description: Senden Sie eine Zugriffsanfrage.
+            step2:
+              title: Schritt 2
+              description: Warten Sie auf die Überprüfung der Anfrage.
+            step3:
+              title: Schritt 3
+              description: >
+                Sie werden benachrichtigt, sobald die Überprüfung
+                der Anfrage abgeschlossen ist.
+    events:
+      access_requests:
+        confirmed:
+          email_intro: Herzlichen Glückwunsch! Ihnen wurde Zugriff auf %{verification_name} gewährt.
+          email_outro: Sie erhalten diese Benachrichtigung, weil Ihre Zugriffsanfrage genehmigt wurde.
+          email_subject: Zugriff auf %{verification_name} gewährt!
+          notification_title: Ihnen wurde Zugriff auf %{verification_name} gewährt.
+        requested:
+          notification_title: Ein Benutzer bittet um Berechtigung. Gehen Sie zum Admin-Dashboard > Teilnehmer > Berechtigungen > Ihre Zugriffsanfragen, um die Anfrage zu überprüfen.
