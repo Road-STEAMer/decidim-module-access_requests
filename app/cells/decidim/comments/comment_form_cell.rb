@@ -13,14 +13,18 @@ module Decidim
         render view: :comment_as, locals: { form: }
       end
 
+      
       def authorized_to_comment?(user)
         return false unless user
-    
+
+        return true if model.component&.manifest_name == "whiteboard"
+
         Decidim::Authorization.where(
           decidim_user_id: user.id,
           granted_at: ..Time.current
         ).exists?
       end
+
 
       private
 
