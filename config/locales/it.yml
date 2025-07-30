@@ -87,4 +87,4 @@ it:
           email_subject: Accesso concesso a %{verification_name}!
           notification_title: Ti è stato concesso l'accesso a %{verification_name}.
         requested:
-          notification_title: Un utente sta chiedendo l'autorizzazione, vai su Pannello Admin > Partecipanti > Autorizzazioni > Le tue richieste di accesso per esaminare la richiesta.
+          notification_title:  "Un utente sta chiedendo l'autorizzazione, vai su <a href='/admin/your_requests/'>Bacheca Amministrazione &gt; Partecipanti &gt; Autorizzazioni &gt; Le tue richieste</a> per esaminare la richiesta."

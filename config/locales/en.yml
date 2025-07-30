@@ -87,4 +87,4 @@ en:
           email_subject: You have been granted access to %{verification_name}!
           notification_title: You have been granted access to %{verification_name}.
         requested: 
-          notification_title: A user is asking to be authorized, go to Admin dashboard > Participants > Authorizations > Your access requests to review the request.
+          notification_title:  "A user is asking to be authorized, go to <a href='/admin/your_requests/'>Admin dashboard &gt; Participants &gt; Authorizations &gt; Your access requests</a> to review the request."

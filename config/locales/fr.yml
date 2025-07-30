@@ -87,4 +87,4 @@ fr:
           email_subject: Accès accordé à %{verification_name} !
           notification_title: Vous avez obtenu l'accès à %{verification_name}.
         requested:
-          notification_title: Un utilisateur demande une autorisation, allez dans Tableau de bord Admin > Participants > Autorisations > Vos demandes d'accès pour examiner la demande.
+          notification_title: "Un utilisateur demande une autorisation, allez dans <a href='/admin/your_requests/'>Tableau de bord admin &gt; Participants &gt; Autorisations &gt; Vos demandes</a> pour examiner la demande."

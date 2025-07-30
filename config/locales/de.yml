@@ -87,4 +87,4 @@ de:
           email_subject: Zugriff auf %{verification_name} gewährt!
           notification_title: Ihnen wurde Zugriff auf %{verification_name} gewährt.
         requested:
-          notification_title: Ein Benutzer bittet um Berechtigung. Gehen Sie zum Admin-Dashboard > Teilnehmer > Berechtigungen > Ihre Zugriffsanfragen, um die Anfrage zu überprüfen.
+          notification_title: "Ein Benutzer bittet um eine Autorisierung. Gehe zu <a href='/admin/your_requests/'>Admin-Dashboard &gt; Teilnehmer &gt; Autorisierungen &gt; Deine Anfragen</a>, um die Anfrage zu prüfen."
